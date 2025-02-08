@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: you-dress-service-discovery
+  config:
+    import: optional:configserver:http://localhost:8001
+  cloud:
+    loadbalancer:
+    ribbon:
+      enabled: false
+

@@ -1,0 +1,26 @@
+# You dress configuration server properties
+spring:
+  application:
+    name: you-dress-service-configserver
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config
+#        git:
+#           uri: https://github.com/muhammadMelhem/you-dress.git
+#           searchPaths: config
+#           username: muhammadMelhem
+#           password: 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
+
+server:
+  port: 8001
+
+# Spring actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="you-dress-portal-back-end" />
+        <module name="you-dress-service-gateway" />
+        <module name="you-dress-authorization-server" />
+        <module name="you-dress-service-configserver" />
+        <module name="you-dress-service-discovery" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="you-dress-application" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="you-dress-authorization-server" options="-parameters" />
+      <module name="you-dress-core" options="" />
+      <module name="you-dress-portal-back-end" options="-parameters" />
+      <module name="you-dress-portal-front-end" options="" />
+      <module name="you-dress-service-configserver" options="-parameters" />
+      <module name="you-dress-service-discovery" options="-parameters" />
+      <module name="you-dress-service-gateway" options="-parameters" />
+      <module name="you-dress-web" options="" />
+    </option>
+  </component>
+</project>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.whaleIntel</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>you-dress-microservices</artifactId>
+    <packaging>pom</packaging>
+    <name>you-dress-parent-microservices</name>
+    <description>you-dress-microservices</description>
+
+    <parent>
+        <groupId>com.whaleintel</groupId>
+        <artifactId>you-dress-core</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
+    <modules>
+        <module>you-dress-core</module>
+<!--        <module>you-dress-service-configserver</module>-->
+<!--        <module>you-dress-service-discovery</module>-->
+<!--        <module>you-dress-service-gateway</module>-->
+        <module>you-dress-authorization-server</module>
+    </modules>
+        <build>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
+            </plugins>
+        </build>
+</project>

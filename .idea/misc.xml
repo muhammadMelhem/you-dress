@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/you-dress-service-configserver" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/you-dress-portal/pom.xml" />
+        <option value="$PROJECT_DIR$/you-dress-portal-backEnd/pom.xml" />
+        <option value="$PROJECT_DIR$/you-dress-service-configserver/pom.xml" />
+        <option value="$PROJECT_DIR$/you-dress-service-discovery/pom.xml" />
+        <option value="$PROJECT_DIR$/you-dress-microservices/pom.xml" />
+        <option value="$PROJECT_DIR$/you-dress-portal-front-end/pom.xml" />
+        <option value="$PROJECT_DIR$/you-dress-portal-back-end/pom.xml" />
+        <option value="$PROJECT_DIR$/you-dress-web/you-dress-portal-front-end/pom.xml" />
+        <option value="$PROJECT_DIR$/you-dress-web/you-dress-portal-backEnd/pom.xml" />
+        <option value="$PROJECT_DIR$/you-dress-web/you-dress-portal-back-end/pom.xml" />
+        <option value="$PROJECT_DIR$/you-dress-web/pom.xml" />
+        <option value="$PROJECT_DIR$/you-dress-microservices/you-dress-core/pom.xml" />
+        <option value="$PROJECT_DIR$/you-dress-microservices/you-dress-authorization-server/pom.xml" />
+        <option value="$PROJECT_DIR$/you-dress-microservices/you-dress-service-discovery/pom.xml" />
+        <option value="$PROJECT_DIR$/you-dress-microservices/you-dress-service-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/you-dress-microservices/you-dress-service-configserver/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/you-dress-portal-back-end/pom.xml" />
+        <option value="$PROJECT_DIR$/you-dress-service-configserver/pom.xml" />
+        <option value="$PROJECT_DIR$/you-dress-service-discovery/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" project-jdk-name="21" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

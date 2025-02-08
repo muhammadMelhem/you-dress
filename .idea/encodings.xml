@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/you-dress-microservices/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/you-dress-microservices/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/you-dress-microservices/you-dress-authorization-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/you-dress-microservices/you-dress-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/you-dress-microservices/you-dress-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/you-dress-microservices/you-dress-service-configserver/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/you-dress-microservices/you-dress-service-discovery/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/you-dress-microservices/you-dress-service-gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/you-dress-portal-front-end/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/you-dress-portal-front-end/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/you-dress-web/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/you-dress-web/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/you-dress-web/you-dress-portal-back-end/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/you-dress-web/you-dress-portal-front-end/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/you-dress-web/you-dress-portal-front-end/src/main/resources" charset="UTF-8" />
+  </component>
+</project>
