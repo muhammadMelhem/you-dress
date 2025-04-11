@@ -7,16 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="you-dress-portal-back-end" />
         <module name="you-dress-service-gateway" />
+        <module name="you-dress-portal-back-end" />
         <module name="you-dress-authorization-server" />
         <module name="you-dress-service-configserver" />
         <module name="you-dress-service-discovery" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="you-dress-application" target="1.5" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

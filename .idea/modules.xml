@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$USER_HOME$/Documents/auth/auth0-demo-master/auth0-demo-master.iml" filepath="$USER_HOME$/Documents/auth/auth0-demo-master/auth0-demo-master.iml" />
       <module fileurl="file://$PROJECT_DIR$/config/config.iml" filepath="$PROJECT_DIR$/config/config.iml" />
-      <module fileurl="file://$PROJECT_DIR$/you-dress-microservices/you-dress-authorization-server/you-dress-authorization-server.iml" filepath="$PROJECT_DIR$/you-dress-microservices/you-dress-authorization-server/you-dress-authorization-server.iml" />
+      <module fileurl="file://$USER_HOME$/Documents/auth/oauth2-demo/oauth2-demo.iml" filepath="$USER_HOME$/Documents/auth/oauth2-demo/oauth2-demo.iml" />
     </modules>
   </component>
 </project>
