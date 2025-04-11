@@ -27,6 +27,7 @@
     "@fullcalendar/core": "^6.1.15",
     "@fullcalendar/daygrid": "^6.1.15",
     "@iplab/ngx-file-upload": "^19.0.3",
+    "angular-oauth2-oidc": "^19.0.0",
     "apexcharts": "^4.3.0",
     "express": "^4.21.0",
     "moment": "^2.30.1",
