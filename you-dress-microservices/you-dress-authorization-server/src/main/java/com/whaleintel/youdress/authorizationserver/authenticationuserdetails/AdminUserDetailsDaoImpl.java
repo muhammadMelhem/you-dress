@@ -115,6 +115,8 @@ public class AdminUserDetailsDaoImpl implements AuthenticationUserDetailsDao {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+        return sessionFactory.getCurrentSession()
+                .createQuery("from AdminUsers where username=:username", AdminUsers.class)
+                .setParameter("username", username).uniqueResult();
     }
 }
