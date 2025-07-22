@@ -8,7 +8,7 @@ import {authConfig} from "./auth.config";
 export class AuthorizationService {
 
   constructor(private oauthService: OAuthService) {
-    this.configureOAuth();
+    // this.configureOAuth();
 
   }
 

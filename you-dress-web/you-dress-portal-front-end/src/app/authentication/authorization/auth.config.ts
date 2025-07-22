@@ -5,13 +5,13 @@ export const authConfig: AuthConfig = {
     // Your Auth0 app's domain
     // Important: Don't forget to start with https://
     //  AND the trailing slash!
-    issuer: 'http://localhost:4200/authentication',
+    issuer: 'http://localhost:8080',
 
     // The app's clientId configured in Auth0
     clientId: 'client',
 
     // The app's redirectUri configured in Auth0
-    redirectUri: window.location.origin,
+    redirectUri: window.location.origin + '/ecommerce',
 
     // Scopes ("rights") the Angular application wants get delegated
     scope: 'openid',
