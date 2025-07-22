@@ -8,7 +8,6 @@ import {CustomizerSettingsComponent} from './customizer-settings/customizer-sett
 import {CustomizerSettingsService} from './customizer-settings/customizer-settings.service';
 import {ToggleService} from './common/sidebar/toggle.service';
 import {filter} from "rxjs";
-import {authConfig} from "./authentication/authorization/auth.config";
 import {OAuthService} from "angular-oauth2-oidc";
 
 @Component({
@@ -43,9 +42,6 @@ export class AppComponent {
     });
 
 
-    this.configureCodeFlow();
-
-
     // Automatically load user profile
     this.oauthService.events
       .pipe(filter((e) => e.type === 'token_received'))
@@ -57,15 +53,6 @@ export class AppComponent {
         console.debug('scopes', scopes);
       });
 
-
   }
 
-
-  private configureCodeFlow() {
-    this.oauthService.configure(authConfig);
-    this.oauthService.loadDiscoveryDocumentAndTryLogin();
-
-    // Optional
-    // this.oauthService.setupAutomaticSilentRefresh();
-  }
 }

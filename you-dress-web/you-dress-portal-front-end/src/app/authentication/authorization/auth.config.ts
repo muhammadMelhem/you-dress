@@ -11,7 +11,7 @@ export const authConfig: AuthConfig = {
     clientId: 'client',
 
     // The app's redirectUri configured in Auth0
-    redirectUri: window.location.origin + '/ecommerce',
+    redirectUri: window.location.origin,
 
     // Scopes ("rights") the Angular application wants get delegated
     scope: 'openid',
