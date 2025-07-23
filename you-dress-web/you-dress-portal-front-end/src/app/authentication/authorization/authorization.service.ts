@@ -8,14 +8,13 @@ import {authConfig} from "./auth.config";
 export class AuthorizationService {
 
   constructor(private oauthService: OAuthService) {
-    // this.configureOAuth();
+    this.configureOAuth();
 
   }
 
-  private async configureOAuth() {
+  private configureOAuth() {
     this.oauthService.configure(authConfig);
-    await this.oauthService.loadDiscoveryDocument();
-    await this.oauthService.tryLoginCodeFlow();
+    this.oauthService.loadDiscoveryDocumentAndTryLogin();
   }
 
 

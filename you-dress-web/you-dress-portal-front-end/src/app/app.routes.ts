@@ -194,15 +194,10 @@ import { EProductsListComponent } from './pages/ecommerce-page/e-products-list/e
 import { EProductsGridComponent } from './pages/ecommerce-page/e-products-grid/e-products-grid.component';
 import { EcommercePageComponent } from './pages/ecommerce-page/ecommerce-page.component';
 import { TeamMembersComponent } from './pages/users-page/team-members/team-members.component';
+import {AuthGuard} from "./auth-guard.service";
 
 export const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'authentication/logout',
-    pathMatch: 'full'
-  },
-
-  {path: 'ecommerce', component: EcommerceComponent},
+  {path: 'ecommerce', component: EcommerceComponent, canActivate: [AuthGuard]},
   {path: 'crm', component: CrmComponent},
   {path: 'project-management', component: ProjectManagementComponent},
   {path: 'lms', component: LmsComponent},

@@ -7,7 +7,6 @@ import {FooterComponent} from './common/footer/footer.component';
 import {CustomizerSettingsComponent} from './customizer-settings/customizer-settings.component';
 import {CustomizerSettingsService} from './customizer-settings/customizer-settings.service';
 import {ToggleService} from './common/sidebar/toggle.service';
-import {filter} from "rxjs";
 import {OAuthService} from "angular-oauth2-oidc";
 
 @Component({
@@ -41,17 +40,11 @@ export class AppComponent {
       this.isSidebarToggled = isSidebarToggled;
     });
 
-
-    // Automatically load user profile
-    this.oauthService.events
-      .pipe(filter((e) => e.type === 'token_received'))
-      .subscribe((_) => {
-        console.debug('state', this.oauthService.state);
-        this.oauthService.loadUserProfile();
-
-        const scopes = this.oauthService.getGrantedScopes();
-        console.debug('scopes', scopes);
-      });
+    // if (this.oauthService.hasValidAccessToken()) {
+    //   this.router.navigate(['/users']);
+    // } else {
+    //   this.router.navigate(['/authentication/logout']);
+    // }
 
   }
 
