@@ -87,7 +87,7 @@ public class SecurityConfig {
                 .clientSecret("secret")
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://localhost:4200/ecommerce")
+                .redirectUri("http://localhost:4200/authentication/callback")
                 .scope(OidcScopes.OPENID)
                 .build();
 

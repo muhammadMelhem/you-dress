@@ -11,7 +11,7 @@ export const authConfig: AuthConfig = {
     clientId: 'client',
 
     // The app's redirectUri configured in Auth0
-    redirectUri: window.location.origin,
+  redirectUri: window.location.origin + '/authentication/callback',
 
     // Scopes ("rights") the Angular application wants get delegated
     scope: 'openid',
@@ -21,7 +21,11 @@ export const authConfig: AuthConfig = {
     responseType: 'code',
   dummyClientSecret: 'secret', // Required if using Basic Auth
   useHttpBasicAuth: true,
-  requireHttps: "remoteOnly"// Enables Basic Authentication
+  requireHttps: "remoteOnly",// Enables Basic Authentication
+  showDebugInformation: true // Only for development
+
+
+
 
 
 };

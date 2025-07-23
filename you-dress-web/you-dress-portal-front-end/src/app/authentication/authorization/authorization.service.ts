@@ -1,56 +1,72 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {OAuthService} from "angular-oauth2-oidc";
 import {authConfig} from "./auth.config";
+import {BehaviorSubject, filter} from "rxjs";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizationService {
 
-  constructor(private oauthService: OAuthService) {
-    this.configureOAuth();
+  private isAuthenticatedSubject$ = new BehaviorSubject<boolean>(false);
+  public isAuthenticated$ = this.isAuthenticatedSubject$.asObservable();
+  public redirectUrl: string | null = null;
 
+  constructor(
+    private oauthService: OAuthService,
+    private router: Router
+  ) {
+    this.configureOAuth();
   }
 
   private configureOAuth() {
     this.oauthService.configure(authConfig);
-    this.oauthService.loadDiscoveryDocumentAndTryLogin();
+
+    this.oauthService.events.pipe(
+      filter(e => e.type === 'token_received')
+    ).subscribe(() => {
+      this.isAuthenticatedSubject$.next(true);
+      this.navigateAfterLogin();
+    });
+
+    this.oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
+      const isAuthenticated = this.oauthService.hasValidAccessToken();
+      this.isAuthenticatedSubject$.next(isAuthenticated);
+      if (isAuthenticated) {
+        this.navigateAfterLogin();
+      }
+    });
   }
 
-
-  refresh(): void {
-    this.oauthService.refreshToken();
+  private navigateAfterLogin() {
+    if (this.redirectUrl) {
+      this.router.navigateByUrl(this.redirectUrl);
+      this.redirectUrl = null;
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
-  logout(): void {
-    this.oauthService.revokeTokenAndLogout({
-      client_id: this.oauthService.clientId,
-      returnTo: this.oauthService.redirectUri
-    }, true);
-  }
-
-  login(): void {
-
+  public login() {
     this.oauthService.initCodeFlow();
-
   }
 
-  accessTokens(): void {
-
-    this.oauthService.getAccessToken();
-
+  public logout() {
+    this.oauthService.logOut();
+    this.isAuthenticatedSubject$.next(false);
   }
 
-  //
-  // get accessToken() {
-  //   return this.oauthService.getAccessToken();
-  // }
-
-  get refreshToken() {
-    return this.oauthService.getRefreshToken();
+  public async handleCallback() {
+    await this.oauthService.loadDiscoveryDocumentAndLogin();
+    this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken());
   }
 
-  get idToken() {
-    return this.oauthService.getIdToken();
+  public getAccessToken(): string {
+    return this.oauthService.getAccessToken();
+  }
+
+  public getIdentityClaims(): any {
+    return this.oauthService.getIdentityClaims();
   }
 }

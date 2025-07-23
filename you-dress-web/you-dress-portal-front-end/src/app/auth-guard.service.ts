@@ -1,25 +1,32 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import {Injectable} from "@angular/core";
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from "@angular/router";
+import {AuthorizationService} from "./authentication/authorization/authorization.service";
+import {filter, Observable, take} from "rxjs";
+import {map} from "rxjs/operators";
 
-import { OAuthService } from 'angular-oauth2-oidc';
-
-@Injectable()
-export class AuthGuard {
-  constructor(
-    private oauthService: OAuthService,
-    private router: Router
-  ) { }
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthGuard implements CanActivate {
+  constructor(private authService: AuthorizationService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): boolean {
-    const isLoggedIn = this.oauthService.hasValidAccessToken();
+  ): Observable<boolean | UrlTree> {
+    return this.authService.isAuthenticated$.pipe(
+      filter(isAuthenticated => isAuthenticated !== null),
+      take(1),
+      map(isAuthenticated => {
+        if (isAuthenticated) {
+          return true;
+        }
 
-    if (!isLoggedIn) {
-      this.router.navigate(['/authentication/logout'], { queryParams: { returnUrl: state.url } });
-    }
-
-    return isLoggedIn;
+        // Store attempted URL for redirect after login
+        this.authService.redirectUrl = state.url;
+        this.authService.login();
+        return false;
+      })
+    );
   }
 }
