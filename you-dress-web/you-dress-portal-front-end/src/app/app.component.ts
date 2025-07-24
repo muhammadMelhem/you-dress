@@ -7,7 +7,6 @@ import {FooterComponent} from './common/footer/footer.component';
 import {CustomizerSettingsComponent} from './customizer-settings/customizer-settings.component';
 import {CustomizerSettingsService} from './customizer-settings/customizer-settings.service';
 import {ToggleService} from './common/sidebar/toggle.service';
-import {OAuthService} from "angular-oauth2-oidc";
 
 @Component({
   selector: 'app-root',
@@ -27,8 +26,7 @@ export class AppComponent {
     public router: Router,
     private toggleService: ToggleService,
     private viewportScroller: ViewportScroller,
-    public themeService: CustomizerSettingsService,
-    private oauthService: OAuthService
+    public themeService: CustomizerSettingsService
   ) {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {

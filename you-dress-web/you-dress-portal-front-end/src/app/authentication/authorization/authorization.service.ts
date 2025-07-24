@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {OAuthService} from "angular-oauth2-oidc";
 import {authConfig} from "./auth.config";
-import {BehaviorSubject, filter} from "rxjs";
+import {BehaviorSubject, catchError, filter, map, Observable, of} from "rxjs";
 import {Router} from "@angular/router";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class AuthorizationService {
 
   constructor(
     private oauthService: OAuthService,
-    private router: Router
+    private router: Router, private http: HttpClient
   ) {
     this.configureOAuth();
   }
@@ -44,7 +45,7 @@ export class AuthorizationService {
       this.router.navigateByUrl(this.redirectUrl);
       this.redirectUrl = null;
     } else {
-      this.router.navigate(['/']);
+      this.router.navigate(['/ecommerce']);
     }
   }
 
@@ -52,14 +53,27 @@ export class AuthorizationService {
     this.oauthService.initCodeFlow();
   }
 
+  public redirectToLogin() {
+    this.router.navigate(['/']);
+  }
+
   public logout() {
     this.oauthService.logOut();
     this.isAuthenticatedSubject$.next(false);
   }
 
-  public async handleCallback() {
-    await this.oauthService.loadDiscoveryDocumentAndLogin();
-    this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken());
+  public handleCallback(): Promise<void> {
+    return this.oauthService.loadDiscoveryDocumentAndLogin().then(isLoggedIn => {
+      this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken());
+      if (isLoggedIn) {
+        this.navigateAfterLogin();
+      } else {
+        this.router.navigate(['/authentication/logout']);
+      }
+    }).catch(() => {
+      this.isAuthenticatedSubject$.next(false);
+      this.router.navigate(['/authentication/logout']);
+    });
   }
 
   public getAccessToken(): string {
@@ -68,5 +82,28 @@ export class AuthorizationService {
 
   public getIdentityClaims(): any {
     return this.oauthService.getIdentityClaims();
+  }
+
+  introspectToken(token: string): Observable<boolean> {
+    const url = 'http://localhost:8080/oauth2/introspect';
+
+    const headers = new HttpHeaders({
+      'Authorization': 'Basic Y2xpZW50OnNlY3JldA==', // base64(client:secret)
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+
+    const body = new HttpParams().set('token', token);
+
+    return this.http.post<any>(url, body.toString(), { headers }).pipe(
+      map(response => {
+        // According to OAuth2 spec, "active" is true when token is valid
+        return response.active === true;
+      }),
+      catchError(error => {
+        console.error('Token introspection failed:', error);
+        this.redirectToLogin();
+        return of(false);
+      })
+    );
   }
 }

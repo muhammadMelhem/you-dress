@@ -1,32 +1,46 @@
 import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from "@angular/router";
+import {Observable, of} from "rxjs";
 import {AuthorizationService} from "./authentication/authorization/authorization.service";
-import {filter, Observable, take} from "rxjs";
-import {map} from "rxjs/operators";
+import {OAuthService} from "angular-oauth2-oidc";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthorizationService, private router: Router) {}
+
+  constructor(
+    private authService: AuthorizationService,
+    private oauthService: OAuthService,
+    private router: Router,
+    private http: HttpClient
+  ) {
+  }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> {
-    return this.authService.isAuthenticated$.pipe(
-      filter(isAuthenticated => isAuthenticated !== null),
-      take(1),
-      map(isAuthenticated => {
-        if (isAuthenticated) {
-          return true;
-        }
+    this.oauthService.restartSessionChecksIfStillLoggedIn();
 
-        // Store attempted URL for redirect after login
-        this.authService.redirectUrl = state.url;
-        this.authService.login();
-        return false;
-      })
-    );
+    const token = this.oauthService.getAccessToken();
+
+    if (!token) {
+      this.authService.redirectToLogin();
+      return of(false);
+    }
+
+    this.authService.introspectToken(token).subscribe(isValid => {
+      if (!isValid) {
+        // Already redirected in service, but can add fallback here if needed
+        return of(false);
+      } else {
+        this.authService.redirectToLogin();
+        return of(true);
+      }
+    });
+
+    return of(false);
   }
 }

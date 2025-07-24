@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
-import {Router} from '@angular/router';
 import {CustomizerSettingsService} from '../../customizer-settings/customizer-settings.service';
 import {AuthorizationService} from "../authorization/authorization.service";
 

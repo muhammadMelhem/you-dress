@@ -200,7 +200,13 @@ import {CallbackComponent} from "./authentication/callback/callback.component";
 import {AuthGuard} from "./auth-guard.service";
 
 export const routes: Routes = [
-  {path: '', component: EcommerceComponent},
+  {
+    path: '',
+    redirectTo: 'authentication/logout',
+    pathMatch: 'full',
+  },
+
+  {path: 'ecommerce', component: EcommerceComponent},
   {path: 'crm', component: CrmComponent},
   {path: 'project-management', component: ProjectManagementComponent},
   {path: 'lms', component: LmsComponent},
@@ -380,7 +386,7 @@ export const routes: Routes = [
     path: 'authentication',
     component: AuthenticationComponent,
     children: [
-      {path: '', component: SignInComponent},
+      {path: 'sign-in', component: SignInComponent},
       {path: 'sign-up', component: SignUpComponent},
       {path: 'forgot-password', component: ForgotPasswordComponent},
       {path: 'reset-password', component: ResetPasswordComponent},
