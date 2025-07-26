@@ -88,7 +88,7 @@ export class AuthorizationService {
     const url = 'http://localhost:8080/oauth2/introspect';
 
     const headers = new HttpHeaders({
-      'Authorization': 'Basic Y2xpZW50OnNlY3JldA==', // base64(client:secret)
+      'Authorization': 'Basic Y2xpZW50OnNlY3JldA==',
       'Content-Type': 'application/x-www-form-urlencoded'
     });
 
@@ -96,7 +96,6 @@ export class AuthorizationService {
 
     return this.http.post<any>(url, body.toString(), { headers }).pipe(
       map(response => {
-        // According to OAuth2 spec, "active" is true when token is valid
         return response.active === true;
       }),
       catchError(error => {

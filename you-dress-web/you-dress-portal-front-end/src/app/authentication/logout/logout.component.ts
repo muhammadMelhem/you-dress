@@ -14,8 +14,7 @@ export class LogoutComponent {
   constructor(
     public themeService: CustomizerSettingsService,
     private authorizationService: AuthorizationService
-  ) {
-  }
+  ) {}
 
   onSignInClick() {
     this.authorizationService.login();

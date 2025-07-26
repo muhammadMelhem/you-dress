@@ -202,30 +202,30 @@ import {AuthGuard} from "./auth-guard.service";
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'authentication/logout',
-    pathMatch: 'full',
+    redirectTo: 'authentication/sign-in',
+    pathMatch: 'full'
   },
 
-  {path: 'ecommerce', component: EcommerceComponent},
-  {path: 'crm', component: CrmComponent},
-  {path: 'project-management', component: ProjectManagementComponent},
-  {path: 'lms', component: LmsComponent},
-  {path: 'help-desk', component: HelpDeskComponent},
+  {path: 'ecommerce', component: EcommerceComponent, canActivate: [AuthGuard]},
+  {path: 'crm', component: CrmComponent, canActivate: [AuthGuard]},
+  {path: 'project-management', component: ProjectManagementComponent, canActivate: [AuthGuard]},
+  {path: 'lms', component: LmsComponent, canActivate: [AuthGuard]},
+  {path: 'help-desk', component: HelpDeskComponent, canActivate: [AuthGuard]},
   {path: 'to-do-list', component: ToDoListComponent, canActivate: [AuthGuard]},
-  {path: 'calendar', component: CalendarComponent},
-  {path: 'contacts', component: ContactsComponent},
-  {path: 'chat', component: ChatComponent},
-  {path: 'kanban-board', component: KanbanBoardComponent},
+  {path: 'calendar', component: CalendarComponent, canActivate: [AuthGuard]},
+  {path: 'contacts', component: ContactsComponent, canActivate: [AuthGuard]},
+  {path: 'chat', component: ChatComponent, canActivate: [AuthGuard]},
+  {path: 'kanban-board', component: KanbanBoardComponent, canActivate: [AuthGuard]},
   {
     path: 'file-manager',
     component: FileManagerComponent,
     children: [
-      {path: '', component: MyDriveComponent},
-      {path: 'assets', component: AssetsComponent},
-      {path: 'projects', component: ProjectsComponent},
-      {path: 'personal', component: PersonalComponent},
-      {path: 'applications', component: ApplicationsComponent},
-      {path: 'documents', component: DocumentsComponent},
+      {path: '', component: MyDriveComponent, canActivate: [AuthGuard]},
+      {path: 'assets', component: AssetsComponent, canActivate: [AuthGuard]},
+      {path: 'projects', component: ProjectsComponent, canActivate: [AuthGuard]},
+      {path: 'personal', component: PersonalComponent, canActivate: [AuthGuard]},
+      {path: 'applications', component: ApplicationsComponent, canActivate: [AuthGuard]},
+      {path: 'documents', component: DocumentsComponent, canActivate: [AuthGuard]},
       {path: 'media', component: MediaComponent}
     ]
   },
@@ -233,106 +233,114 @@ export const routes: Routes = [
     path: 'email',
     component: EmailComponent,
     children: [
-      {path: '', component: InboxComponent},
-      {path: 'compose', component: ComposeComponent},
+      {path: '', component: InboxComponent, canActivate: [AuthGuard]},
+      {path: 'compose', component: ComposeComponent, canActivate: [AuthGuard]},
       {path: 'read', component: ReadComponent}
     ]
+
   },
   {
     path: 'ecommerce-page',
     component: EcommercePageComponent,
     children: [
-      {path: '', component: EProductsGridComponent},
-      {path: 'products-list', component: EProductsListComponent},
-      {path: 'product-details', component: EProductDetailsComponent},
-      {path: 'create-product', component: ECreateProductComponent},
-      {path: 'edit-product', component: EEditProductComponent},
-      {path: 'orders', component: EOrdersComponent},
-      {path: 'order-details', component: EOrderDetailsComponent},
-      {path: 'create-order', component: ECreateOrderComponent},
-      {path: 'order-tracking', component: EOrderTrackingComponent},
-      {path: 'customers', component: ECustomersComponent},
-      {path: 'customer-details', component: ECustomerDetailsComponent},
-      {path: 'cart', component: ECartComponent},
-      {path: 'checkout', component: ECheckoutComponent},
-      {path: 'sellers', component: ESellersComponent},
-      {path: 'seller-details', component: ESellerDetailsComponent},
-      {path: 'create-seller', component: ECreateSellerComponent},
-      {path: 'refunds', component: ERefundsComponent},
-      {path: 'categories', component: ECategoriesComponent},
-      {path: 'create-category', component: ECreateCategoryComponent},
-      {path: 'edit-category', component: EEditCategoryComponent},
+      {path: '', component: EProductsGridComponent, canActivate: [AuthGuard]},
+      {path: 'products-list', component: EProductsListComponent, canActivate: [AuthGuard]},
+      {path: 'product-details', component: EProductDetailsComponent, canActivate: [AuthGuard]},
+      {path: 'create-product', component: ECreateProductComponent, canActivate: [AuthGuard]},
+      {path: 'edit-product', component: EEditProductComponent, canActivate: [AuthGuard]},
+      {path: 'orders', component: EOrdersComponent, canActivate: [AuthGuard]},
+      {path: 'order-details', component: EOrderDetailsComponent, canActivate: [AuthGuard]},
+      {path: 'create-order', component: ECreateOrderComponent, canActivate: [AuthGuard]},
+      {path: 'order-tracking', component: EOrderTrackingComponent, canActivate: [AuthGuard]},
+      {path: 'customers', component: ECustomersComponent, canActivate: [AuthGuard]},
+      {path: 'customer-details', component: ECustomerDetailsComponent, canActivate: [AuthGuard]},
+      {path: 'cart', component: ECartComponent, canActivate: [AuthGuard]},
+      {path: 'checkout', component: ECheckoutComponent, canActivate: [AuthGuard]},
+      {path: 'sellers', component: ESellersComponent, canActivate: [AuthGuard]},
+      {path: 'seller-details', component: ESellerDetailsComponent, canActivate: [AuthGuard]},
+      {path: 'create-seller', component: ECreateSellerComponent, canActivate: [AuthGuard]},
+      {path: 'refunds', component: ERefundsComponent, canActivate: [AuthGuard]},
+      {path: 'categories', component: ECategoriesComponent, canActivate: [AuthGuard]},
+      {path: 'create-category', component: ECreateCategoryComponent, canActivate: [AuthGuard]},
+      {path: 'edit-category', component: EEditCategoryComponent, canActivate: [AuthGuard]},
       {path: 'reviews', component: EReviewsComponent}
     ]
+
   },
   {
     path: 'crm-page',
     component: CrmPageComponent,
     children: [
-      {path: '', component: CContactsComponent},
-      {path: 'create-contact', component: CCreateContactComponent},
-      {path: 'edit-contact', component: CEditContactComponent},
-      {path: 'customers', component: CCustomersComponent},
-      {path: 'create-lead', component: CCreateLeadComponent},
-      {path: 'edit-lead', component: CEditLeadComponent},
-      {path: 'leads', component: CLeadsComponent},
-      {path: 'deals', component: CDealsComponent},
+      {path: '', component: CContactsComponent, canActivate: [AuthGuard]},
+      {path: 'create-contact', component: CCreateContactComponent, canActivate: [AuthGuard]},
+      {path: 'edit-contact', component: CEditContactComponent, canActivate: [AuthGuard]},
+      {path: 'customers', component: CCustomersComponent, canActivate: [AuthGuard]},
+      {path: 'create-lead', component: CCreateLeadComponent, canActivate: [AuthGuard]},
+      {path: 'edit-lead', component: CEditLeadComponent, canActivate: [AuthGuard]},
+      {path: 'leads', component: CLeadsComponent, canActivate: [AuthGuard]},
+      {path: 'deals', component: CDealsComponent, canActivate: [AuthGuard]},
       {path: 'create-deal', component: CCreateDealComponent}
     ]
+
   },
   {
     path: 'project-management-page',
     component: ProjectManagementPageComponent,
     children: [
-      {path: '', component: PmProjectOverviewComponent},
-      {path: 'projects-list', component: PmProjectsListComponent},
-      {path: 'create-project', component: PmCreateProjectComponent},
-      {path: 'clients', component: PmClientsComponent},
-      {path: 'teams', component: PmTeamsComponent},
-      {path: 'kanban-board', component: PmKanbanBoardComponent},
-      {path: 'users', component: PmUsersComponent},
-      {path: 'create-user', component: PmCreateUserComponent},
+      {path: '', component: PmProjectOverviewComponent, canActivate: [AuthGuard]},
+      {path: 'projects-list', component: PmProjectsListComponent, canActivate: [AuthGuard]},
+      {path: 'create-project', component: PmCreateProjectComponent, canActivate: [AuthGuard]},
+      {path: 'clients', component: PmClientsComponent, canActivate: [AuthGuard]},
+      {path: 'teams', component: PmTeamsComponent, canActivate: [AuthGuard]},
+      {path: 'kanban-board', component: PmKanbanBoardComponent, canActivate: [AuthGuard]},
+      {path: 'users', component: PmUsersComponent, canActivate: [AuthGuard]},
+      {path: 'create-user', component: PmCreateUserComponent, canActivate: [AuthGuard]},
       {path: 'edit-user', component: PmEditUserComponent}
     ]
+
   },
   {
     path: 'lms-page',
     component: LmsPageComponent,
     children: [
-      {path: '', component: LCoursesComponent},
-      {path: 'course-details', component: LCourseDetailsComponent},
-      {path: 'create-course', component: LCreateCourseComponent},
-      {path: 'edit-course', component: LEditCourseComponent},
+      {path: '', component: LCoursesComponent, canActivate: [AuthGuard]},
+      {path: 'course-details', component: LCourseDetailsComponent, canActivate: [AuthGuard]},
+      {path: 'create-course', component: LCreateCourseComponent, canActivate: [AuthGuard]},
+      {path: 'edit-course', component: LEditCourseComponent, canActivate: [AuthGuard]},
       {path: 'instructors', component: LInstructorsComponent}
     ]
+
   },
   {
     path: 'help-desk-page',
     component: HelpDeskPageComponent,
     children: [
-      {path: '', component: HdTicketsComponent},
-      {path: 'ticket-details', component: HdTicketDetailsComponent},
-      {path: 'agents', component: HdAgentsComponent},
+      {path: '', component: HdTicketsComponent, canActivate: [AuthGuard]},
+      {path: 'ticket-details', component: HdTicketDetailsComponent, canActivate: [AuthGuard]},
+      {path: 'agents', component: HdAgentsComponent, canActivate: [AuthGuard]},
       {path: 'reports', component: HdReportsComponent}
     ]
+
   },
   {
     path: 'events',
     component: EventsPageComponent,
     children: [
-      {path: '', component: EventsListComponent},
-      {path: 'event-details', component: EventDetailsComponent},
-      {path: 'create-an-event', component: CreateAnEventComponent},
+      {path: '', component: EventsListComponent, canActivate: [AuthGuard]},
+      {path: 'event-details', component: EventDetailsComponent, canActivate: [AuthGuard]},
+      {path: 'create-an-event', component: CreateAnEventComponent, canActivate: [AuthGuard]},
       {path: 'edit-an-event', component: EditAnEventComponent}
     ]
+
   },
   {
     path: 'invoices',
     component: InvoicesPageComponent,
     children: [
-      {path: '', component: InvoicesComponent},
-      {path: 'invoice-details', component: InvoiceDetailsComponent},
+      {path: '', component: InvoicesComponent, canActivate: [AuthGuard]},
+      {path: 'invoice-details', component: InvoiceDetailsComponent, canActivate: [AuthGuard]},
     ]
+
   },
   {
     path: 'social',
@@ -342,45 +350,50 @@ export const routes: Routes = [
         path: '',
         component: ProfileComponent,
         children: [
-          {path: '', component: TimelineComponent},
-          {path: 'about', component: AboutComponent},
+          {path: '', component: TimelineComponent, canActivate: [AuthGuard]},
+          {path: 'about', component: AboutComponent, canActivate: [AuthGuard]},
           {path: 'activity', component: ActivityComponent}
         ]
+
       },
       {path: 'settings', component: ProfileSettingsComponent}
     ]
+
   },
-  {path: 'starter', component: StarterComponent},
-  {path: 'faq', component: FaqPageComponent},
-  {path: 'pricing', component: PricingPageComponent},
-  {path: 'maps', component: MapsPageComponent},
-  {path: 'notifications', component: NotificationsPageComponent},
-  {path: 'members', component: MembersPageComponent},
+  {path: 'starter', component: StarterComponent, canActivate: [AuthGuard]},
+  {path: 'faq', component: FaqPageComponent, canActivate: [AuthGuard]},
+  {path: 'pricing', component: PricingPageComponent, canActivate: [AuthGuard]},
+  {path: 'maps', component: MapsPageComponent, canActivate: [AuthGuard]},
+  {path: 'notifications', component: NotificationsPageComponent, canActivate: [AuthGuard]},
+  {path: 'members', component: MembersPageComponent, canActivate: [AuthGuard]},
   {
     path: 'users',
     component: UsersPageComponent,
     children: [
-      {path: '', component: TeamMembersComponent},
-      {path: 'users-list', component: UsersListComponent},
-      {path: 'add-user', component: AddUserComponent},
+      {path: '', component: TeamMembersComponent, canActivate: [AuthGuard]},
+      {path: 'users-list', component: UsersListComponent, canActivate: [AuthGuard]},
+      {path: 'add-user', component: AddUserComponent, canActivate: [AuthGuard]},
     ]
+
   },
   {
     path: 'profile',
     component: ProfilePageComponent,
     children: [
-      {path: '', component: UserProfileComponent},
-      {path: 'teams', component: TeamsComponent},
-      {path: 'projects', component: PProjectsComponent},
+      {path: '', component: UserProfileComponent, canActivate: [AuthGuard]},
+      {path: 'teams', component: TeamsComponent, canActivate: [AuthGuard]},
+      {path: 'projects', component: PProjectsComponent, canActivate: [AuthGuard]},
     ]
+
   },
   {
     path: 'icons',
     component: IconsComponent,
     children: [
-      {path: '', component: MaterialSymbolsComponent},
+      {path: '', component: MaterialSymbolsComponent, canActivate: [AuthGuard]},
       {path: 'remixicon', component: RemixiconComponent}
     ]
+
   },
   {
     path: 'authentication',
@@ -395,111 +408,117 @@ export const routes: Routes = [
       {path: 'logout', component: LogoutComponent},
       {path: 'callback', component: CallbackComponent}
     ]
+
   },
-  {path: 'my-profile', component: MyProfileComponent},
+  {path: 'my-profile', component: MyProfileComponent, canActivate: [AuthGuard]},
   {
     path: 'settings',
     component: SettingsComponent,
     children: [
-      {path: '', component: AccountSettingsComponent},
-      {path: 'change-password', component: ChangePasswordComponent},
-      {path: 'connections', component: ConnectionsComponent},
-      {path: 'privacy-policy', component: PrivacyPolicyComponent},
+      {path: '', component: AccountSettingsComponent, canActivate: [AuthGuard]},
+      {path: 'change-password', component: ChangePasswordComponent, canActivate: [AuthGuard]},
+      {path: 'connections', component: ConnectionsComponent, canActivate: [AuthGuard]},
+      {path: 'privacy-policy', component: PrivacyPolicyComponent, canActivate: [AuthGuard]},
       {path: 'terms-conditions', component: TermsConditionsComponent}
     ]
+
   },
-  {path: 'timeline', component: TimelinePageComponent},
-  {path: 'gallery', component: GalleryPageComponent},
-  {path: 'testimonials', component: TestimonialsPageComponent},
-  {path: 'search', component: SearchPageComponent},
-  {path: 'coming-soon', component: ComingSoonPageComponent},
-  {path: 'blank-page', component: BlankPageComponent},
-  {path: 'internal-error', component: InternalErrorComponent},
-  {path: 'widgets', component: WidgetsComponent},
+  {path: 'timeline', component: TimelinePageComponent, canActivate: [AuthGuard]},
+  {path: 'gallery', component: GalleryPageComponent, canActivate: [AuthGuard]},
+  {path: 'testimonials', component: TestimonialsPageComponent, canActivate: [AuthGuard]},
+  {path: 'search', component: SearchPageComponent, canActivate: [AuthGuard]},
+  {path: 'coming-soon', component: ComingSoonPageComponent, canActivate: [AuthGuard]},
+  {path: 'blank-page', component: BlankPageComponent, canActivate: [AuthGuard]},
+  {path: 'internal-error', component: InternalErrorComponent, canActivate: [AuthGuard]},
+  {path: 'widgets', component: WidgetsComponent, canActivate: [AuthGuard]},
   {
     path: 'charts',
     component: ApexchartsComponent,
     children: [
-      {path: '', component: LineChartsComponent},
-      {path: 'area', component: AreaChartsComponent},
-      {path: 'column', component: ColumnChartsComponent},
-      {path: 'mixed', component: MixedChartsComponent},
-      {path: 'radialbar', component: RadialBarChartsComponent},
-      {path: 'radar', component: RadarChartsComponent},
-      {path: 'pie', component: PieChartsComponent},
-      {path: 'polar', component: PolarChartsComponent},
+      {path: '', component: LineChartsComponent, canActivate: [AuthGuard]},
+      {path: 'area', component: AreaChartsComponent, canActivate: [AuthGuard]},
+      {path: 'column', component: ColumnChartsComponent, canActivate: [AuthGuard]},
+      {path: 'mixed', component: MixedChartsComponent, canActivate: [AuthGuard]},
+      {path: 'radialbar', component: RadialBarChartsComponent, canActivate: [AuthGuard]},
+      {path: 'radar', component: RadarChartsComponent, canActivate: [AuthGuard]},
+      {path: 'pie', component: PieChartsComponent, canActivate: [AuthGuard]},
+      {path: 'polar', component: PolarChartsComponent, canActivate: [AuthGuard]},
       {path: 'more', component: MoreChartsComponent}
     ]
+
   },
   {
     path: 'tables',
     component: TablesComponent,
     children: [
-      {path: '', component: BasicTableComponent},
-      {path: 'data-table', component: DataTableComponent},
+      {path: '', component: BasicTableComponent, canActivate: [AuthGuard]},
+      {path: 'data-table', component: DataTableComponent, canActivate: [AuthGuard]},
     ]
+
   },
   {
     path: 'ui-kit',
     component: UiElementsComponent,
     children: [
-      {path: '', component: AlertsComponent},
-      {path: 'autocomplete', component: AutocompleteComponent},
-      {path: 'avatars', component: AvatarsComponent},
-      {path: 'accordion', component: AccordionComponent},
-      {path: 'badges', component: BadgesComponent},
-      {path: 'breadcrumb', component: BreadcrumbComponent},
-      {path: 'button-toggle', component: ButtonToggleComponent},
-      {path: 'bottom-sheet', component: BottomSheetComponent},
-      {path: 'buttons', component: ButtonsComponent},
-      {path: 'cards', component: CardsComponent},
-      {path: 'carousels', component: CarouselsComponent},
-      {path: 'checkbox', component: CheckboxComponent},
-      {path: 'chips', component: ChipsComponent},
-      {path: 'color-picker', component: ColorPickerComponent},
-      {path: 'clipboard', component: ClipboardComponent},
-      {path: 'datepicker', component: DatepickerComponent},
-      {path: 'dialog', component: DialogComponent},
-      {path: 'divider', component: DividerComponent},
-      {path: 'drag-drop', component: DragDropComponent},
-      {path: 'expansion', component: ExpansionComponent},
-      {path: 'form-field', component: FormFieldComponent},
-      {path: 'grid-list', component: GridListComponent},
-      {path: 'input', component: InputComponent},
-      {path: 'icon', component: IconComponent},
-      {path: 'list', component: ListComponent},
-      {path: 'listbox', component: ListboxComponent},
-      {path: 'menus', component: MenusComponent},
-      {path: 'pagination', component: PaginationComponent},
-      {path: 'progress-bar', component: ProgressBarComponent},
-      {path: 'radio', component: RadioComponent},
-      {path: 'ratio', component: RatioComponent},
-      {path: 'select', component: SelectComponent},
-      {path: 'sidenav', component: SidenavComponent},
-      {path: 'slide-toggle', component: SlideToggleComponent},
-      {path: 'slider', component: SliderComponent},
-      {path: 'snackbar', component: SnackbarComponent},
-      {path: 'stepper', component: StepperComponent},
-      {path: 'typography', component: TypographyComponent},
-      {path: 'tooltip', component: TooltipComponent},
-      {path: 'toolbar', component: ToolbarComponent},
-      {path: 'table', component: TableComponent},
-      {path: 'tabs', component: TabsComponent},
-      {path: 'tree', component: TreeComponent},
-      {path: 'videos', component: VideosComponent},
-      {path: 'utilities', component: UtilitiesComponent},
+      {path: '', component: AlertsComponent, canActivate: [AuthGuard]},
+      {path: 'autocomplete', component: AutocompleteComponent, canActivate: [AuthGuard]},
+      {path: 'avatars', component: AvatarsComponent, canActivate: [AuthGuard]},
+      {path: 'accordion', component: AccordionComponent, canActivate: [AuthGuard]},
+      {path: 'badges', component: BadgesComponent, canActivate: [AuthGuard]},
+      {path: 'breadcrumb', component: BreadcrumbComponent, canActivate: [AuthGuard]},
+      {path: 'button-toggle', component: ButtonToggleComponent, canActivate: [AuthGuard]},
+      {path: 'bottom-sheet', component: BottomSheetComponent, canActivate: [AuthGuard]},
+      {path: 'buttons', component: ButtonsComponent, canActivate: [AuthGuard]},
+      {path: 'cards', component: CardsComponent, canActivate: [AuthGuard]},
+      {path: 'carousels', component: CarouselsComponent, canActivate: [AuthGuard]},
+      {path: 'checkbox', component: CheckboxComponent, canActivate: [AuthGuard]},
+      {path: 'chips', component: ChipsComponent, canActivate: [AuthGuard]},
+      {path: 'color-picker', component: ColorPickerComponent, canActivate: [AuthGuard]},
+      {path: 'clipboard', component: ClipboardComponent, canActivate: [AuthGuard]},
+      {path: 'datepicker', component: DatepickerComponent, canActivate: [AuthGuard]},
+      {path: 'dialog', component: DialogComponent, canActivate: [AuthGuard]},
+      {path: 'divider', component: DividerComponent, canActivate: [AuthGuard]},
+      {path: 'drag-drop', component: DragDropComponent, canActivate: [AuthGuard]},
+      {path: 'expansion', component: ExpansionComponent, canActivate: [AuthGuard]},
+      {path: 'form-field', component: FormFieldComponent, canActivate: [AuthGuard]},
+      {path: 'grid-list', component: GridListComponent, canActivate: [AuthGuard]},
+      {path: 'input', component: InputComponent, canActivate: [AuthGuard]},
+      {path: 'icon', component: IconComponent, canActivate: [AuthGuard]},
+      {path: 'list', component: ListComponent, canActivate: [AuthGuard]},
+      {path: 'listbox', component: ListboxComponent, canActivate: [AuthGuard]},
+      {path: 'menus', component: MenusComponent, canActivate: [AuthGuard]},
+      {path: 'pagination', component: PaginationComponent, canActivate: [AuthGuard]},
+      {path: 'progress-bar', component: ProgressBarComponent, canActivate: [AuthGuard]},
+      {path: 'radio', component: RadioComponent, canActivate: [AuthGuard]},
+      {path: 'ratio', component: RatioComponent, canActivate: [AuthGuard]},
+      {path: 'select', component: SelectComponent, canActivate: [AuthGuard]},
+      {path: 'sidenav', component: SidenavComponent, canActivate: [AuthGuard]},
+      {path: 'slide-toggle', component: SlideToggleComponent, canActivate: [AuthGuard]},
+      {path: 'slider', component: SliderComponent, canActivate: [AuthGuard]},
+      {path: 'snackbar', component: SnackbarComponent, canActivate: [AuthGuard]},
+      {path: 'stepper', component: StepperComponent, canActivate: [AuthGuard]},
+      {path: 'typography', component: TypographyComponent, canActivate: [AuthGuard]},
+      {path: 'tooltip', component: TooltipComponent, canActivate: [AuthGuard]},
+      {path: 'toolbar', component: ToolbarComponent, canActivate: [AuthGuard]},
+      {path: 'table', component: TableComponent, canActivate: [AuthGuard]},
+      {path: 'tabs', component: TabsComponent, canActivate: [AuthGuard]},
+      {path: 'tree', component: TreeComponent, canActivate: [AuthGuard]},
+      {path: 'videos', component: VideosComponent, canActivate: [AuthGuard]},
+      {path: 'utilities', component: UtilitiesComponent, canActivate: [AuthGuard]},
     ]
+
   },
   {
     path: 'forms',
     component: FormsComponent,
     children: [
-      {path: '', component: BasicElementsComponent},
-      {path: 'advanced-elements', component: AdvancedElementsComponent},
-      {path: 'wizard', component: WizardComponent},
-      {path: 'editors', component: EditorsComponent},
-      {path: 'file-uploader', component: FileUploaderComponent},
+      {path: '', component: BasicElementsComponent, canActivate: [AuthGuard]},
+      {path: 'advanced-elements', component: AdvancedElementsComponent, canActivate: [AuthGuard]},
+      {path: 'wizard', component: WizardComponent, canActivate: [AuthGuard]},
+      {path: 'editors', component: EditorsComponent, canActivate: [AuthGuard]},
+      {path: 'file-uploader', component: FileUploaderComponent, canActivate: [AuthGuard]},
     ]
+
   },
   // Here add new pages component
 
