@@ -159,9 +159,7 @@ import {PmTeamsComponent} from './pages/project-management-page/pm-teams/pm-team
 import {PmClientsComponent} from './pages/project-management-page/pm-clients/pm-clients.component';
 import {PmCreateProjectComponent} from './pages/project-management-page/pm-create-project/pm-create-project.component';
 import {PmProjectsListComponent} from './pages/project-management-page/pm-projects-list/pm-projects-list.component';
-import {
-  PmProjectOverviewComponent
-} from './pages/project-management-page/pm-project-overview/pm-project-overview.component';
+import {PmProjectOverviewComponent} from './pages/project-management-page/pm-project-overview/pm-project-overview.component';
 import {ProjectManagementPageComponent} from './pages/project-management-page/project-management-page.component';
 import {CCreateDealComponent} from './pages/crm-page/c-create-deal/c-create-deal.component';
 import {CDealsComponent} from './pages/crm-page/c-deals/c-deals.component';
@@ -200,11 +198,6 @@ import {CallbackComponent} from "./authentication/callback/callback.component";
 import {AuthGuard} from "./auth-guard.service";
 
 export const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'authentication/sign-in',
-    pathMatch: 'full'
-  },
 
   {path: 'ecommerce', component: EcommerceComponent, canActivate: [AuthGuard]},
   {path: 'crm', component: CrmComponent, canActivate: [AuthGuard]},
@@ -399,7 +392,7 @@ export const routes: Routes = [
     path: 'authentication',
     component: AuthenticationComponent,
     children: [
-      {path: 'sign-in', component: SignInComponent},
+      {path: '', component: SignInComponent},
       {path: 'sign-up', component: SignUpComponent},
       {path: 'forgot-password', component: ForgotPasswordComponent},
       {path: 'reset-password', component: ResetPasswordComponent},

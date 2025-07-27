@@ -16,7 +16,8 @@ export class LogoutComponent {
     private authorizationService: AuthorizationService
   ) {}
 
-  onSignInClick() {
-    this.authorizationService.login();
+  onLogoutClick() {
+    this.authorizationService.logout();
+
   }
 }

@@ -45,7 +45,7 @@ export class AuthorizationService {
       this.router.navigateByUrl(this.redirectUrl);
       this.redirectUrl = null;
     } else {
-      this.router.navigate(['/ecommerce']);
+      this.router.navigate(['/crm']);
     }
   }
 
@@ -54,7 +54,7 @@ export class AuthorizationService {
   }
 
   public redirectToLogin() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/authentication']);
   }
 
   public logout() {
@@ -62,18 +62,20 @@ export class AuthorizationService {
     this.isAuthenticatedSubject$.next(false);
   }
 
-  public handleCallback(): Promise<void> {
-    return this.oauthService.loadDiscoveryDocumentAndLogin().then(isLoggedIn => {
+  public async handleCallback() {
+    try {
+      const isLoggedIn = await this.oauthService.loadDiscoveryDocumentAndTryLogin();
       this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken());
+
       if (isLoggedIn) {
         this.navigateAfterLogin();
       } else {
-        this.router.navigate(['/authentication/logout']);
+        this.login();
       }
-    }).catch(() => {
+    } catch {
       this.isAuthenticatedSubject$.next(false);
       this.router.navigate(['/authentication/logout']);
-    });
+    }
   }
 
   public getAccessToken(): string {
@@ -94,7 +96,7 @@ export class AuthorizationService {
 
     const body = new HttpParams().set('token', token);
 
-    return this.http.post<any>(url, body.toString(), { headers }).pipe(
+    return this.http.post<any>(url, body.toString(), {headers}).pipe(
       map(response => {
         return response.active === true;
       }),

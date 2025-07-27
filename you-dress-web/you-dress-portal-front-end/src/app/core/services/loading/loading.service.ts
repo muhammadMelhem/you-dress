@@ -15,6 +15,7 @@ export class LoadingService {
   }
 
   loadingOff() {
+    new Promise(resolve => setTimeout(resolve, 500));
     this.loadingSubject.next(false);
   }
 }
