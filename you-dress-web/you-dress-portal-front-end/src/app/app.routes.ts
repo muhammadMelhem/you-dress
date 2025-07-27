@@ -198,6 +198,11 @@ import {CallbackComponent} from "./authentication/callback/callback.component";
 import {AuthGuard} from "./auth-guard.service";
 
 export const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'authentication',
+    pathMatch: 'full'
+  },
 
   {path: 'ecommerce', component: EcommerceComponent, canActivate: [AuthGuard]},
   {path: 'crm', component: CrmComponent, canActivate: [AuthGuard]},

@@ -88,6 +88,7 @@ public class SecurityConfig {
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .redirectUri("http://localhost:4200/authentication/callback")
+                .postLogoutRedirectUri("http://localhost:4200/authentication")
                 .scope(OidcScopes.OPENID)
                 .build();
 

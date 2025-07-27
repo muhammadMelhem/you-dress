@@ -33,7 +33,7 @@ export class AuthGuard implements CanActivate {
         if (isValid) {
           return of(true);
         } else {
-          this.authService.handleCallback();
+          // this.authService.handleCallback();
           return of(false);
         }
       })
