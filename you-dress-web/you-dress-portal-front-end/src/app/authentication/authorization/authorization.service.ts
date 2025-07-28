@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {OAuthService} from "angular-oauth2-oidc";
 import {authConfig} from "./auth.config";
-import {BehaviorSubject, catchError, filter, map, Observable, of} from "rxjs";
-import {Router} from "@angular/router";
+import {catchError, map, Observable, of} from "rxjs";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 
 @Injectable({
@@ -10,72 +9,46 @@ import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 })
 export class AuthorizationService {
 
-  private isAuthenticatedSubject$ = new BehaviorSubject<boolean>(false);
-  public isAuthenticated$ = this.isAuthenticatedSubject$.asObservable();
-  public redirectUrl: string | null = null;
-
-  constructor(
-    private oauthService: OAuthService,
-    private router: Router, private http: HttpClient
-  ) {
-    this.configureOAuth();
+  constructor(private oauthService: OAuthService, private http: HttpClient) {
+    this.configure();
   }
 
-  private configureOAuth() {
+  private configure(): void {
     this.oauthService.configure(authConfig);
-
-    this.oauthService.events.pipe(
-      filter(e => e.type === 'token_received')
-    ).subscribe(() => {
-      this.isAuthenticatedSubject$.next(true);
-      this.navigateAfterLogin();
-    });
-
-    this.oauthService.loadDiscoveryDocumentAndTryLogin().then(() => {
-      const isAuthenticated = this.oauthService.hasValidAccessToken();
-      this.isAuthenticatedSubject$.next(isAuthenticated);
-      if (isAuthenticated) {
-        this.navigateAfterLogin();
-      }
-    });
+    this.oauthService.setupAutomaticSilentRefresh();
   }
 
-  private navigateAfterLogin() {
-    if (this.redirectUrl) {
-      this.router.navigateByUrl(this.redirectUrl);
-      this.redirectUrl = null;
-    } else {
-      this.router.navigate(['/crm']);
+  async initLogin(): Promise<void> {
+    await this.oauthService.loadDiscoveryDocumentAndTryLogin();
+    if (!this.oauthService.hasValidAccessToken()) {
+      await this.oauthService.loadDiscoveryDocumentAndLogin();
     }
   }
 
-  public login() {
+
+  get identityClaims() {
+    return this.oauthService.getIdentityClaims();
+  }
+
+  get accessToken(): string {
+    return this.oauthService.getAccessToken();
+  }
+
+  private navigateAfterLogin() {
+    // this.router.navigate(['/crm']);
+
+  }
+
+  public initCodeFlow() {
     this.oauthService.initCodeFlow();
   }
 
   public redirectToLogin() {
-    this.router.navigate(['/authentication']);
+    // this.router.navigate(['/authentication']);
   }
 
   public logout() {
     this.oauthService.logOut();
-    this.isAuthenticatedSubject$.next(false);
-  }
-
-  public async handleCallback() {
-    try {
-      const isLoggedIn = await this.oauthService.loadDiscoveryDocumentAndTryLogin();
-      this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken());
-
-      if (isLoggedIn) {
-        this.navigateAfterLogin();
-      } else {
-        this.login();
-      }
-    } catch {
-      this.isAuthenticatedSubject$.next(false);
-      this.router.navigate(['/authentication/logout']);
-    }
   }
 
   public getAccessToken(): string {

@@ -14,6 +14,6 @@ export class CallbackComponent implements OnInit {
   constructor(private authService: AuthorizationService, private router: Router) {}
 
   ngOnInit() {
-    this.router.navigate(['/crm']);
+    // this.router.navigate(['/crm']);
   }
 }

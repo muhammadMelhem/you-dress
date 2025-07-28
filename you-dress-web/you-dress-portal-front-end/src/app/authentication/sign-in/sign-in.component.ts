@@ -22,7 +22,7 @@ export class SignInComponent {
   ) {}
 
   onSignInClick() {
-    this.authorizationService.login();
+    this.authorizationService.initCodeFlow();
   }
 
 }
