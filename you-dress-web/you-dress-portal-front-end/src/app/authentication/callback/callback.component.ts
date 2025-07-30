@@ -1,19 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthorizationService } from '../authorization/authorization.service';
-import {MatProgressSpinner} from "@angular/material/progress-spinner";
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-callback',
-  template: '<mat-spinner></mat-spinner>',
-  imports: [
-    MatProgressSpinner
-  ]
+  template: '',
+  imports: []
 })
 export class CallbackComponent implements OnInit {
-  constructor(private authService: AuthorizationService, private router: Router) {}
+  constructor() {
+  }
 
   ngOnInit() {
-    // this.router.navigate(['/crm']);
   }
 }
