@@ -8,7 +8,7 @@ export const authConfig: AuthConfig = {
     issuer: 'http://localhost:8080',
 
     // The app's clientId configured in Auth0
-    clientId: 'client',
+    clientId: 'web-client',
 
     // The app's redirectUri configured in Auth0
   redirectUri: window.location.origin + '/authentication/callback',
@@ -19,7 +19,7 @@ export const authConfig: AuthConfig = {
     // Using Authorization Code Flow
     // (PKCE is activated by default for authorization code flow)
     responseType: 'code',
-  dummyClientSecret: 'secret', // Required if using Basic Auth
+  dummyClientSecret: 'fe4e269e-7e6e-431d-b2c9-5806ee7a6349', // Required if using Basic Auth
   useHttpBasicAuth: true,
   requireHttps: "remoteOnly",// Enables Basic Authentication
   showDebugInformation: true // Only for development
