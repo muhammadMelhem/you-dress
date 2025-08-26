@@ -10,7 +10,7 @@ import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 export class AuthorizationService {
 
   constructor(private oauthService: OAuthService, private http: HttpClient) {
-    this.configure();
+    // this.configure();
   }
 
   private configure(): void {
