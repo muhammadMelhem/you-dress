@@ -6,7 +6,7 @@ import {provideClientHydration} from '@angular/platform-browser';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {OAuthModule, provideOAuthClient} from "angular-oauth2-oidc";
 import {provideHttpClient, withInterceptors} from "@angular/common/http";
-import {loadingInterceptor} from "./core/interceptors/loading.interceptor";
+import {loadingInterceptor, withCredentialsInterceptor} from "./core/interceptors/loading.interceptor";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,13 +14,14 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptors([loadingInterceptor])),
-    ...(OAuthModule.forRoot({
-      resourceServer: {
-        allowedUrls: ['http://localhost:8080/'],
-        sendAccessToken: true
-      }
-    }).providers ?? [])
+    provideHttpClient(withInterceptors([loadingInterceptor, withCredentialsInterceptor]))
+    // ,
+    // ...(OAuthModule.forRoot({
+    //   resourceServer: {
+    //     allowedUrls: ['http://localhost:8080/'],
+    //     sendAccessToken: true
+    //   }
+    // }).providers ?? [])
   ]
 };
 

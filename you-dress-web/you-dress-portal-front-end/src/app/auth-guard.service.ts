@@ -47,13 +47,15 @@ import { OAuthService } from 'angular-oauth2-oidc';
 //   }
 
 export const AuthGuard: CanActivateFn = () => {
-  const oauth = inject(OAuthService);
-  const router = inject(Router);
+  // const oauth = inject(OAuthService);
+  // const router = inject(Router);
+  //
+  // if (oauth.hasValidAccessToken()) {
+  //   return true;
+  // }
+  // oauth.initLoginFlow();
+  // return false;
 
-  if (oauth.hasValidAccessToken()) {
-    return true;
-  }
-  oauth.initLoginFlow();
-  return false;
+  return true;
 };
 

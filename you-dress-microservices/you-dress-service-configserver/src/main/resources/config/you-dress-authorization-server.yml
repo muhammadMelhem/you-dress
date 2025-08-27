@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: you-dress-authorization-server
+
+  liquibase:
+    change-log: classpath:db-changes-log/authorization-service-database-changelog.xml
+    enabled: true
+    database-change-log-table: changes-log
+    database-change-log-lock-table: changes-log-lock
+
+youdress:
+  hibernate:
+    datasource:
+      url: jdbc:postgresql://localhost:5432/authorization
+      driver-class-name: org.postgresql.Driver
+    username: admin
+    password: admin
+    dialect: org.hibernate.dialect.PostgreSQLDialect
+    show_sql: true
+    hbm2ddl:
+      auto: validate
+    format_sql: true
+    physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+
+logging:
+  level:
+    root: DEBUG
+    org:
+      hibernate: DEBUG
+      springframework:
+        transaction: DEBUG
+
+# server:
+#   servlet:
+#     context-path: /api

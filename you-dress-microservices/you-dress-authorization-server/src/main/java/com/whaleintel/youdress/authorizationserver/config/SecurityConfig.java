@@ -9,16 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.MediaType;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.client.OidcLogoutConfigurer;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
@@ -30,6 +34,8 @@ import org.springframework.security.oauth2.server.authorization.token.JwtEncodin
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -41,9 +47,11 @@ import java.util.UUID;
 
 @Configuration
 public class SecurityConfig {
+    private static final String CUSTOM_CONSENT_PAGE_URI = "/oauth2/consent";
 
     @Autowired
     CustomAuthenticationProvider authenticationProvider;
+    RegisteredClientRepository registeredClientRepository;
 
 
     @Bean
@@ -55,10 +63,13 @@ public class SecurityConfig {
         http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
                 .oidc(Customizer.withDefaults());
 
-        http.exceptionHandling((e) ->
-                e.authenticationEntryPoint(
-                        new LoginUrlAuthenticationEntryPoint("/login"))
+        http.exceptionHandling((exceptions) -> exceptions
+                .defaultAuthenticationEntryPointFor(
+                        new LoginUrlAuthenticationEntryPoint("/login"),
+                        new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
+                )
         );
+
 
 //        http
 //                .sessionManagement(session -> session
@@ -83,8 +94,10 @@ public class SecurityConfig {
             throws Exception {
         http.formLogin(Customizer.withDefaults());
 
-        http.authorizeHttpRequests(
-                c -> c.anyRequest().authenticated()
+        http.authorizeHttpRequests(authorize ->
+                authorize
+                        .requestMatchers("/assets/**", "/login").permitAll()
+                        .anyRequest().authenticated()
         );
 
         http.authenticationProvider(authenticationProvider);
@@ -111,6 +124,7 @@ public class SecurityConfig {
         return NoOpPasswordEncoder.getInstance();
     }
 
+
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
@@ -134,7 +148,68 @@ public class SecurityConfig {
                 .build();
 
         return new InMemoryRegisteredClientRepository(registeredClient);
+    public JdbcOAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate,
+                                                               RegisteredClientRepository registeredClientRepository) {
+        return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
     }
+
+//    @Bean
+//    public JdbcRegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
+//        RegisteredClient messagingClient = RegisteredClient.withId(UUID.randomUUID().toString())
+//                .clientId("angular-web-client")
+//                .clientSecret(UUID.randomUUID().toString())
+//                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+//                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+//                .redirectUri("http://localhost:4200/authentication/callback")
+//                .postLogoutRedirectUri("http://localhost:4200/authentication")
+//                .scope(OidcScopes.OPENID)
+//                .scope(OidcScopes.PROFILE)
+//                .scope("message.read")
+//                .scope("message.write")
+//                .scope("user.read")
+//                .clientSettings(ClientSettings.builder()
+//                        .requireProofKey(true)
+//                        .requireAuthorizationConsent(false)
+//                        .build())
+//                .tokenSettings(
+//                        TokenSettings.builder()
+//                                .accessTokenTimeToLive(Duration.ofMinutes(1))
+//                                .refreshTokenTimeToLive(Duration.ofDays(1))
+//                                .reuseRefreshTokens(false).build())
+//                .build();
+//
+//
+//        JdbcRegisteredClientRepository registeredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
+//        registeredClientRepository.save(messagingClient);
+//
+//
+//        return registeredClientRepository;
+//    }
+
+
+//    @Bean
+//    public RegisteredClientRepository registeredClientRepository() {
+//        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+//                .clientId("client")
+//                .clientSecret("secret")
+//                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+//                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+//                .redirectUri("http://localhost:4200/authentication/callback")
+//                .postLogoutRedirectUri("http://localhost:4200/authentication")
+//                .clientSettings(ClientSettings.builder()
+//                        .requireProofKey(true)
+//                        .requireAuthorizationConsent(false)
+//                        .build())
+//                .tokenSettings(
+//                        TokenSettings.builder()
+//                        .accessTokenTimeToLive(Duration.ofMinutes(1))
+//                        .refreshTokenTimeToLive(Duration.ofDays(1))
+//                        .reuseRefreshTokens(false).build())
+//                .scope(OidcScopes.OPENID)
+//                .build();
+//
+//        return new InMemoryRegisteredClientRepository(registeredClient);
+//    }
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() throws NoSuchAlgorithmException {
@@ -165,5 +240,15 @@ public class SecurityConfig {
             JwtClaimsSet.Builder claims = context.getClaims();
             claims.claim("priority", "HIGH");
         };
+    }
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
+    @Bean
+    public HttpSessionEventPublisher httpSessionEventPublisher() {
+        return new HttpSessionEventPublisher();
     }
 }

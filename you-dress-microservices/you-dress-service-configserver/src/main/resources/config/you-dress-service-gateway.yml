@@ -14,25 +14,65 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8002/eureka
 
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: INFO
 
-#spring:
-#  cloud:
-#    loadbalancer.ribbon.enabled: false
-#    gateway:
-#      routes:
-#        - id: organization-service
-#          uri: lb://organization-service
-#          predicates:
-#            - Path=/organization/**
-#          filters:
-#            - RewritePath=/organization/(?<path>.*), /$\{path}
-#        - id: licensing-service
-#          uri: lb://licensing-service
-#          predicates:
-#            - Path=/license/**
-#          filters:
-#            - RewritePath=/license/(?<path>.*), /$\{path}
+  security:
+    oauth2:
+      client:
+        registration:
+          messaging-client-oidc:
+            provider: spring
+            client-id: messaging-client
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://127.0.0.1:8080/login/oauth2/code/{registrationId}"
+            scope: openid,profile
+            client-name: messaging-client-oidc
+          messaging-client-authorization-code:
+            provider: spring
+            client-id: messaging-client
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://127.0.0.1:8080/authorized"
+            scope: message.read,message.write
+            client-name: messaging-client-authorization-code
+        provider:
+          spring:
+            issuer-uri: http://localhost:9000
+  #spring:
+  #  cloud:
+  #    loadbalancer.ribbon.enabled: false
+  #    gateway:
+  #      routes:
+  #        - id: organization-service
+  #          uri: lb://organization-service
+  #          predicates:
+  #            - Path=/organization/**
+  #          filters:
+  #            - RewritePath=/organization/(?<path>.*), /$\{path}
+  #        - id: licensing-service
+  #          uri: lb://licensing-service
+  #          predicates:
+  #            - Path=/license/**
+  #          filters:
+  #            - RewritePath=/license/(?<path>.*), /$\{path}
 
+
+  cloud:
+    loadbalancer.ribbon.enabled: false
+    gateway:
+      routes:
+        - id: userinfo
+          uri: http://localhost:9000
+          predicates:
+            - Path=/userinfo
+          filters:
+            - TokenRelay=
 
 
 management:
@@ -40,4 +80,8 @@ management:
     web:
       exposure:
         include: "*"
+
+
+app:
+  base-uri: http://127.0.0.1:4200
 
