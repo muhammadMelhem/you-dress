@@ -125,66 +125,43 @@ public class SecurityConfig {
     }
 
 
+//    public JdbcOAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate,
+//                                                               RegisteredClientRepository registeredClientRepository) {
+//        return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
+//    }
+
     @Bean
-    public RegisteredClientRepository registeredClientRepository() {
-        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("client")
-                .clientSecret("secret")
+    public JdbcRegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
+        RegisteredClient messagingClient = RegisteredClient.withId(UUID.randomUUID().toString())
+                .clientId("angular-web-client")
+                .clientSecret(UUID.randomUUID().toString())
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://localhost:4200/authentication/callback")
-                .postLogoutRedirectUri("http://localhost:4200/authentication/callback")
+                .redirectUri("http://localhost:4200/")
+                .postLogoutRedirectUri("http://localhost:4200/")
+                .scope(OidcScopes.OPENID)
+                .scope(OidcScopes.PROFILE)
+                .scope("message.read")
+                .scope("message.write")
+                .scope("user.read")
                 .clientSettings(ClientSettings.builder()
                         .requireProofKey(true)
                         .requireAuthorizationConsent(false)
-                        .requireAuthorizationConsent(true)
                         .build())
                 .tokenSettings(
                         TokenSettings.builder()
-                        .accessTokenTimeToLive(Duration.ofMinutes(1))
-                        .refreshTokenTimeToLive(Duration.ofMinutes(1))
-                        .reuseRefreshTokens(false).build())
-                .scope(OidcScopes.OPENID)
+                                .accessTokenTimeToLive(Duration.ofMinutes(1))
+                                .refreshTokenTimeToLive(Duration.ofDays(1))
+                                .reuseRefreshTokens(false).build())
                 .build();
 
-        return new InMemoryRegisteredClientRepository(registeredClient);
-    public JdbcOAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate,
-                                                               RegisteredClientRepository registeredClientRepository) {
-        return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
-    }
 
-//    @Bean
-//    public JdbcRegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
-//        RegisteredClient messagingClient = RegisteredClient.withId(UUID.randomUUID().toString())
-//                .clientId("angular-web-client")
-//                .clientSecret(UUID.randomUUID().toString())
-//                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-//                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-//                .redirectUri("http://localhost:4200/authentication/callback")
-//                .postLogoutRedirectUri("http://localhost:4200/authentication")
-//                .scope(OidcScopes.OPENID)
-//                .scope(OidcScopes.PROFILE)
-//                .scope("message.read")
-//                .scope("message.write")
-//                .scope("user.read")
-//                .clientSettings(ClientSettings.builder()
-//                        .requireProofKey(true)
-//                        .requireAuthorizationConsent(false)
-//                        .build())
-//                .tokenSettings(
-//                        TokenSettings.builder()
-//                                .accessTokenTimeToLive(Duration.ofMinutes(1))
-//                                .refreshTokenTimeToLive(Duration.ofDays(1))
-//                                .reuseRefreshTokens(false).build())
-//                .build();
-//
-//
-//        JdbcRegisteredClientRepository registeredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
-//        registeredClientRepository.save(messagingClient);
-//
-//
-//        return registeredClientRepository;
-//    }
+        JdbcRegisteredClientRepository registeredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
+        registeredClientRepository.save(messagingClient);
+
+
+        return registeredClientRepository;
+    }
 
 
 //    @Bean
