@@ -27,11 +27,10 @@ youdress:
 
 logging:
   level:
-    root: DEBUG
-    org:
-      hibernate: DEBUG
-      springframework:
-        transaction: DEBUG
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: INFO
 
 # server:
 #   servlet:

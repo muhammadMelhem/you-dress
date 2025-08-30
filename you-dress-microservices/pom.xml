@@ -17,10 +17,11 @@
     </parent>
     <modules>
         <module>you-dress-core</module>
-<!--        <module>you-dress-service-configserver</module>-->
-<!--        <module>you-dress-service-discovery</module>-->
-<!--        <module>you-dress-service-gateway</module>-->
+        <module>you-dress-service-configserver</module>
+        <module>you-dress-service-discovery</module>
         <module>you-dress-authorization-server</module>
+        <!--        <module>you-dress-service-gateway</module>-->
+
     </modules>
         <build>
             <plugins>

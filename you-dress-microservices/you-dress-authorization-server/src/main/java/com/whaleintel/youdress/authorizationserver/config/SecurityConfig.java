@@ -15,6 +15,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -121,72 +122,52 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
-
-//    public JdbcOAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate,
-//                                                               RegisteredClientRepository registeredClientRepository) {
-//        return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
-//    }
-
     @Bean
+    public JdbcOAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate,
+                                                               RegisteredClientRepository registeredClientRepository) {
+        return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
+    }
+
+@Bean
     public JdbcRegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
-        RegisteredClient messagingClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("angular-web-client")
-                .clientSecret(UUID.randomUUID().toString())
-                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://localhost:4200/")
-                .postLogoutRedirectUri("http://localhost:4200/")
-                .scope(OidcScopes.OPENID)
-                .scope(OidcScopes.PROFILE)
-                .scope("message.read")
-                .scope("message.write")
-                .scope("user.read")
-                .clientSettings(ClientSettings.builder()
-                        .requireProofKey(true)
-                        .requireAuthorizationConsent(false)
-                        .build())
-                .tokenSettings(
-                        TokenSettings.builder()
-                                .accessTokenTimeToLive(Duration.ofMinutes(1))
-                                .refreshTokenTimeToLive(Duration.ofDays(1))
-                                .reuseRefreshTokens(false).build())
-                .build();
-
-
         JdbcRegisteredClientRepository registeredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
-        registeredClientRepository.save(messagingClient);
 
+        // Check if client already exists
+        RegisteredClient existingClient = registeredClientRepository.findByClientId("angular-web-client");
+
+        if (existingClient == null) {
+            // Only create if it doesn't exist
+            RegisteredClient messagingClient = RegisteredClient.withId(UUID.randomUUID().toString())
+                    .clientId("angular-web-client")
+                    .clientSecret("{bcrypt}" + new BCryptPasswordEncoder().encode("secret")) // Use encoded secret
+                    .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+                    .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                    .redirectUri("http://localhost:4200/")
+                    .postLogoutRedirectUri("http://localhost:4200/")
+                    .scope(OidcScopes.OPENID)
+                    .scope(OidcScopes.PROFILE)
+                    .scope("message.read")
+                    .scope("message.write")
+                    .scope("user.read")
+                    .clientSettings(ClientSettings.builder()
+                            .requireProofKey(true)
+                            .requireAuthorizationConsent(false)
+                            .build())
+                    .tokenSettings(
+                            TokenSettings.builder()
+                                    .accessTokenTimeToLive(Duration.ofMinutes(30)) // More reasonable duration
+                                    .refreshTokenTimeToLive(Duration.ofDays(1))
+                                    .reuseRefreshTokens(false).build())
+                    .build();
+
+            registeredClientRepository.save(messagingClient);
+        }
 
         return registeredClientRepository;
     }
-
-
-//    @Bean
-//    public RegisteredClientRepository registeredClientRepository() {
-//        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-//                .clientId("client")
-//                .clientSecret("secret")
-//                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-//                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-//                .redirectUri("http://localhost:4200/authentication/callback")
-//                .postLogoutRedirectUri("http://localhost:4200/authentication")
-//                .clientSettings(ClientSettings.builder()
-//                        .requireProofKey(true)
-//                        .requireAuthorizationConsent(false)
-//                        .build())
-//                .tokenSettings(
-//                        TokenSettings.builder()
-//                        .accessTokenTimeToLive(Duration.ofMinutes(1))
-//                        .refreshTokenTimeToLive(Duration.ofDays(1))
-//                        .reuseRefreshTokens(false).build())
-//                .scope(OidcScopes.OPENID)
-//                .build();
-//
-//        return new InMemoryRegisteredClientRepository(registeredClient);
-//    }
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() throws NoSuchAlgorithmException {
