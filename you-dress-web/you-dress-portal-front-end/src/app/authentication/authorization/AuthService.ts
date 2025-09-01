@@ -14,7 +14,7 @@ export class AuthService {
 
   // Initiate login by redirecting to the BFF via the Gateway
   login(): void {
-    window.location.href = `${GATEWAY_URL}/oauth2/oauth2/authorization/youdress-auth-server`;
+    window.location.href = `${GATEWAY_URL}/oauth2/oauth2/authorization/you-dress-authorization-server`;
   }
 
   // Call the BFF's logout endpoint
