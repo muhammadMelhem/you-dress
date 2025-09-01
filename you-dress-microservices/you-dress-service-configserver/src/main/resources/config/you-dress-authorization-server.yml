@@ -1,6 +1,16 @@
 server:
   port: 9000
 
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8002/eureka
+
+
 spring:
   application:
     name: you-dress-authorization-server
