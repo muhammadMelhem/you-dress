@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {CustomizerSettingsService} from '../../customizer-settings/customizer-settings.service';
-import {AuthorizationService} from "../authorization/authorization.service";
+// import {AuthorizationService} from "../authorization/authorization.service";
 
 @Component({
   selector: 'app-logout',
@@ -13,11 +13,11 @@ export class LogoutComponent {
 
   constructor(
     public themeService: CustomizerSettingsService,
-    private authorizationService: AuthorizationService
+    // private authorizationService: AuthorizationService
   ) {}
 
   onLogoutClick() {
-    this.authorizationService.logout();
+    // this.authorizationService.logout();
 
   }
 }

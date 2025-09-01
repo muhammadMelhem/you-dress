@@ -49,11 +49,11 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    if (this.isAuthenticated) {
-      this.getUserInfo();
-    } else {
-      window.location.href = environment.backendBaseUrl;
-    }
+    // if (this.isAuthenticated) {
+    //   this.getUserInfo();
+    // } else {
+    //   window.location.href = environment.backendBaseUrl;
+    // }
 
   }
 

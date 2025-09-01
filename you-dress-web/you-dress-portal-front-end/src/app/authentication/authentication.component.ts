@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {AuthorizationService} from "./authorization/authorization.service";
+// import {AuthorizationService} from "./authorization/authorization.service";
 
 @Component({
     selector: 'app-authentication',
@@ -10,7 +10,7 @@ import {AuthorizationService} from "./authorization/authorization.service";
 })
 export class AuthenticationComponent {
 
-  constructor(private authorizationService: AuthorizationService) {
-    // authorizationService.configureOAuth();
-  }
+  // constructor(private authorizationService: AuthorizationService) {
+  //   // authorizationService.configureOAuth();
+  // }
 }

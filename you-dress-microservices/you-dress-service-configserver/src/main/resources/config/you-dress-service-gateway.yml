@@ -42,14 +42,24 @@ logging:
 
   cloud:
     loadbalancer.ribbon.enabled: false
-    gateway:
-      routes:
-        - id: userinfo
-          uri: http://localhost:9000
-          predicates:
-            - Path=/userinfo
-          filters:
-            - TokenRelay=
+  gateway:
+    routes:
+      - id: you-dress-portal-backEnd
+        uri: lb://you-dress-portal-backEnd
+        predicates:
+          - Path=/api/**, /oauth2/**, /logout
+      - id: you-dress-authorization-server
+        uri: lb://you-dress-authorization-server
+        predicates:
+          - Path=/auth-server/**
+        filters:
+          - StripPrefix=1
+      - id: article-service
+        uri: lb://article-service
+        predicates:
+          - Path=/article-service/**
+        filters:
+          - StripPrefix=1
 
 
 management:

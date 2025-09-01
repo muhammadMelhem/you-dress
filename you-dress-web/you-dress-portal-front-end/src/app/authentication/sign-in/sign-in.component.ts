@@ -5,7 +5,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CustomizerSettingsService} from '../../customizer-settings/customizer-settings.service';
-import {AuthorizationService} from "../authorization/authorization.service";
+import {AuthService} from "../authorization/AuthService";
 
 @Component({
   selector: 'app-sign-in',
@@ -17,12 +17,13 @@ export class SignInComponent {
 
 
   constructor(
-    public themeService: CustomizerSettingsService,
-    private authorizationService: AuthorizationService
+    public themeService: CustomizerSettingsService, private authService: AuthService
   ) {}
 
   onSignInClick() {
-    this.authorizationService.initCodeFlow();
+    // this.authorizationService.initCodeFlow();
+    this.authService.login();
+
   }
 
 }

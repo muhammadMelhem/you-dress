@@ -1,3 +1,48 @@
 spring:
   application:
     name: you-dress-portal-backEnd
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+
+server:
+  port: 8004
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    enabled-by-default: true
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8002/eureka
+
+security:
+  oauth2:
+    client:
+      registration:
+        you-dress-authorization-server:
+          provider: you-dress-authorization-server
+          client-id: youdress-bff-client
+          client-secret: bff-secret
+          authorization-grant-type: authorization_code
+          redirect-uri: http://localhost:8003/oauth2/login/oauth2/code/you-dress-authorization-server
+          scope: openid, profile, articles.read, articles.write
+      provider:
+        you-dress-authorization-server:
+          issuer-uri: http://auth-server:9000
+session:
+  store-type: none  # Temporarily disable Redis to rule it out
+  # data.redis: comment out for now
+#  data:
+#    redis:
+#      host: localhost
+#      port: 6379

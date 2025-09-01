@@ -33,8 +33,8 @@ import java.util.Collections;
 @Configuration(proxyBeanMethods = false)
 public class CorsConfig {
 
-	@Value("${app.base-uri}")
-	private String appBaseUri;
+	@Value("${frontend.url:http://localhost:4200}")
+	private String frontendUrl;
 
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
@@ -42,7 +42,7 @@ public class CorsConfig {
 		config.addAllowedHeader("X-XSRF-TOKEN");
 		config.addAllowedHeader(HttpHeaders.CONTENT_TYPE);
 		config.setAllowedMethods(Arrays.asList("GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS"));
-		config.setAllowedOrigins(Collections.singletonList(this.appBaseUri));
+		config.setAllowedOrigins(Collections.singletonList(frontendUrl));
 		config.setAllowCredentials(true);
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", config);
