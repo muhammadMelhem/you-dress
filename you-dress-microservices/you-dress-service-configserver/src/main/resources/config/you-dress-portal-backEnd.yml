@@ -5,6 +5,26 @@ spring:
     loadbalancer:
       ribbon:
         enabled: false
+  security:
+    oauth2:
+      client:
+        registration:
+          angular-web-client:
+            provider: spring
+            client-id: angular-web-client
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://localhost:8004"
+            scope: openid, profile, articles.read, articles.write
+        provider:
+          spring:
+            issuer-uri: "http://localhost:9000"
+  session:
+    store-type: redis
+  data:
+    redis:
+      host: localhost
+      port: 6379
 
 server:
   port: 8004
@@ -25,23 +45,5 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8002/eureka
 
-security:
-  oauth2:
-    client:
-      registration:
-        you-dress-authorization-server:
-          provider: you-dress-authorization-server
-          client-id: youdress-bff-client
-          client-secret: bff-secret
-          authorization-grant-type: authorization_code
-          redirect-uri: http://localhost:8003/oauth2/login/oauth2/code/you-dress-authorization-server
-          scope: openid, profile, articles.read, articles.write
-      provider:
-        you-dress-authorization-server:
-          issuer-uri: http://localhost:9000
-  session:
-    store-type: redis
-  data:
-    redis:
-      host: localhost
-      port: 6379
+app:
+  base-uri: http://127.0.0.1:4200

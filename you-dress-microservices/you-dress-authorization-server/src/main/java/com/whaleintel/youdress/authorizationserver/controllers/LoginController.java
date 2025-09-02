@@ -1,4 +1,22 @@
-//package com.whaleintel.youdress.authorizationserver.controllers;
+package com.whaleintel.youdress.authorizationserver.controllers;
+
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+/**
+ * @author Steve Riesenberg
+ * @since 1.1
+ */
+@Controller
+public class LoginController {
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+}
 //
 //import com.whaleintel.youdress.authorizationserver.dto.LoginDto;
 //import lombok.RequiredArgsConstructor;

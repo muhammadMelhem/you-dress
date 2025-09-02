@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, tap } from 'rxjs';
 
-const API_BASE_URL = 'http://localhost:8003/api';
-const GATEWAY_URL = 'http://localhost:8003';
+const API_BASE_URL = 'http://localhost:8004/api';
+const GATEWAY_URL = 'http://localhost:8004';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class AuthService {
 
   // Initiate login by redirecting to the BFF via the Gateway
   login(): void {
-    window.location.href = `${GATEWAY_URL}/api/auth`;
+    window.location.href = `${GATEWAY_URL}/`;
   }
 
   // Call the BFF's logout endpoint
