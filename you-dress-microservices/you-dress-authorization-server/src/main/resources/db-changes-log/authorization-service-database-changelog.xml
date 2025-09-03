@@ -19,4 +19,8 @@
         <sqlFile path="classpath:db-changes-log/20250902-database-changelog.sql"/>
     </changeSet>
 
+    <changeSet id="5" author="Muhammad">
+        <sqlFile path="classpath:db-changes-log/20250903-database-changelog.sql"/>
+    </changeSet>
+
 </databaseChangeLog>

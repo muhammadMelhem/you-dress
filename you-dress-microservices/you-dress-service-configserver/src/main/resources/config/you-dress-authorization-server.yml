@@ -1,25 +1,50 @@
-server:
-  port: 9000
-
-eureka:
-  instance:
-    preferIpAddress: true
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://localhost:8002/eureka
-
-
 spring:
   application:
     name: you-dress-authorization-server
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google-idp:
+            provider: google
+            client-id: ${GOOGLE_CLIENT_ID:google-client-id}
+            client-secret: ${GOOGLE_CLIENT_SECRET:google-client-secret}
+            scope: openid, https://www.googleapis.com/auth/userinfo.profile, https://www.googleapis.com/auth/userinfo.email
+            client-name: Sign in with Google
+          github-idp:
+            provider: github
+            client-id: ${GITHUB_CLIENT_ID:github-client-id}
+            client-secret: ${GITHUB_CLIENT_SECRET:github-client-secret}
+            scope: user:email, read:user
+            client-name: Sign in with GitHub
+        provider:
+          google:
+            user-name-attribute: email
+          github:
+            user-name-attribute: login
+
   liquibase:
     change-log: classpath:db-changes-log/authorization-service-database-changelog.xml
-    enabled: true
+    enabled: false
     database-change-log-table: changes-log
     database-change-log-lock-table: changes-log-lock
+
+  ssl:
+    bundle:
+      jks:
+        you-dress-authorization-server:
+          key:
+            alias: demo-authorizationserver-sample
+            password: password
+          keystore:
+            location: classpath:keystore.p12
+            password: password
+            type: PKCS12
+          truststore:
+            location: classpath:keystore.p12
+            password: password
+            type: PKCS12
 
 youdress:
   hibernate:
@@ -35,13 +60,26 @@ youdress:
     format_sql: true
     physical_naming_strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
 
+server:
+  port: 9443
+  ssl:
+    bundle: you-dress-authorization-server
+    client-auth: want
+  # servlet:
+  #   context-path: /api
+
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8002/eureka
+
 logging:
   level:
-    root: DEBUG
-    org.springframework.web: DEBUG
-    org.springframework.security: DEBUG
-    org.springframework.security.oauth2: DEBUG
-
-# server:
-#   servlet:
-#     context-path: /api
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    org.springframework.security.oauth2: INFO

@@ -13,32 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.whaleintel.youdress.web;
+package com.whaleintel.youdress.authorizationserver.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * @author Joe Grandja
- * @author Dmitriy Dubson
- * @since 0.0.1
+ * @author Steve Riesenberg
+ * @since 1.1
  */
 @Controller
-public class DefaultController {
+public class LoginController {
 
-	@GetMapping("/")
-	public String root() {
-		return "redirect:/index";
-	}
-
-	@GetMapping("/index")
-	public String index() {
-		return "index";
-	}
-
-	@GetMapping("/logged-out")
-	public String loggedOut() {
-		return "logged-out";
+	@GetMapping("/login")
+	public String login() {
+		return "login";
 	}
 
 }

@@ -13,32 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.whaleintel.youdress.web;
+package com.whaleintel.youdress.authorizationserver.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * @author Joe Grandja
- * @author Dmitriy Dubson
- * @since 0.0.1
+ * @author Steve Riesenberg
+ * @since 1.1
  */
 @Controller
-public class DefaultController {
+public class DeviceController {
 
-	@GetMapping("/")
-	public String root() {
-		return "redirect:/index";
+	@GetMapping("/activate")
+	public String activate(@RequestParam(value = "user_code", required = false) String userCode) {
+		if (userCode != null) {
+			return "redirect:/oauth2/device_verification?user_code=" + userCode;
+		}
+		return "device-activate";
 	}
 
-	@GetMapping("/index")
-	public String index() {
-		return "index";
+	@GetMapping("/activated")
+	public String activated() {
+		return "device-activated";
 	}
 
-	@GetMapping("/logged-out")
-	public String loggedOut() {
-		return "logged-out";
+	@GetMapping(value = "/", params = "success")
+	public String success() {
+		return "device-activated";
 	}
 
 }
