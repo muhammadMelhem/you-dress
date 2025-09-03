@@ -78,7 +78,7 @@ public class SecurityConfig {
 
     private AuthenticationEntryPoint authenticationEntryPoint() {
         AuthenticationEntryPoint authenticationEntryPoint =
-                new LoginUrlAuthenticationEntryPoint("/oauth2/authorization/angular-web-client");
+                new LoginUrlAuthenticationEntryPoint("/oauth2/authorization/angular-web-client-oidc");
         MediaTypeRequestMatcher textHtmlMatcher =
                 new MediaTypeRequestMatcher(MediaType.TEXT_HTML);
         textHtmlMatcher.setUseEquals(true);

@@ -47,7 +47,7 @@ import java.security.interfaces.RSAPublicKey;
 import java.time.Duration;
 import java.util.UUID;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class SecurityConfig {
     private static final String CUSTOM_CONSENT_PAGE_URI = "/oauth2/consent";
 
@@ -143,26 +143,25 @@ public class SecurityConfig {
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
-        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+        RegisteredClient angularClient = RegisteredClient.withId(UUID.randomUUID().toString())
                 .clientId("angular-web-client")
                 .clientSecret("secret")
-                .clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .redirectUri("http://localhost:8004/login/oauth2/code/angular-web-client")
+                .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+                .redirectUri("http://localhost:8004/login/oauth2/code/angular-web-client-oidc")
                 .redirectUri("http://localhost:8004/authorized")
                 .postLogoutRedirectUri("http://localhost:8004/logged-out")
                 .scope(OidcScopes.OPENID)
                 .scope(OidcScopes.PROFILE)
-                .scope("articles.read")
-                .scope("articles.write")
-                .clientSettings(ClientSettings.builder()
-                        .requireAuthorizationConsent(false)
-                        .requireProofKey(true)
-                        .build())
+                .scope("message.read")
+                .scope("message.write")
+                .scope("user.read")
+                .clientSettings(ClientSettings.builder().requireAuthorizationConsent(false).build())
                 .build();
 
-        return new InMemoryRegisteredClientRepository(registeredClient);
+        return new InMemoryRegisteredClientRepository(angularClient);
     }
 
 //@Bean

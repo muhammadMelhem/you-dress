@@ -9,24 +9,25 @@ spring:
     oauth2:
       client:
         registration:
-          angular-web-client:
+          angular-web-client-oidc:
             provider: spring
             client-id: angular-web-client
             client-secret: secret
             authorization-grant-type: authorization_code
             redirect-uri: "http://localhost:8004/login/oauth2/code/{registrationId}"
-            scope: openid, profile, articles.read, articles.write
-            client-authentication-method: none
-            require-proof-key: true
+            scope: openid,profile
+            client-name: angular-web-client-oidc
+          angular-client-authorization-code:
+            provider: spring
+            client-id: angular-web-client
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://localhost:8004/authorized"
+            scope: message.read,message.write
+            client-name: angular-client-authorization-code
         provider:
           spring:
             issuer-uri: http://localhost:9000
-  session:
-    store-type: redis
-  data:
-    redis:
-      host: localhost
-      port: 6379
 
 server:
   port: 8004
